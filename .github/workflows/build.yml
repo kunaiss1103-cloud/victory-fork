@@ -1,0 +1,17 @@
+name: build-windows
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Rust toolchain
+        run: rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release -p victory
+      - uses: actions/upload-artifact@v4
+        with:
+          name: victory-windows
+          path: target/release/victory.exe
